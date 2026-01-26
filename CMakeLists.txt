@@ -7,7 +7,6 @@ if("$ENV{ROS_VERSION}" STREQUAL "1")
 # Source and header files.
 set(NABO_SRC
   nabo/nabo.cpp
-  nabo/brute_force_cpu.cpp
   nabo/kdtree_cpu.cpp
 )
 

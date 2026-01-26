@@ -91,7 +91,6 @@ int main(int argc, char* argv[])
 	typedef Nabo::NearestNeighbourSearch<float>::Vector Vector;
 	typedef Nabo::NearestNeighbourSearch<float>::Index Index;
 	typedef Nabo::NearestNeighbourSearch<float>::Indexes Indexes;
-	typedef Nabo::BruteForceSearch<float> BFSF;
 	typedef Nabo::KDTree<float> KDTF;
 	
 	if (argc != 2)

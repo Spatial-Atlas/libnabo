@@ -286,7 +286,6 @@ namespace Nabo
 		{
 			BRUTE_FORCE = 0, //!< brute force, check distance to every point in the data
 			KDTREE_LINEAR_HEAP, //!< kd-tree with linear heap, good for small k (~up to 30)
-			KDTREE_TREE_HEAP, //!< kd-tree with tree heap, good for large k (~from 30)
 			SEARCH_TYPE_COUNT //!< number of search types
 		};
 
@@ -351,14 +350,6 @@ namespace Nabo
 		 *	\return an object on which to run nearest neighbour queries */
 		static NearestNeighbourSearch* create(const CloudType& cloud, const Index dim = std::numeric_limits<Index>::max(), const SearchType preferedType = KDTREE_LINEAR_HEAP, const unsigned creationOptionFlags = 0, const Parameters& additionalParameters = Parameters());
 
-		//! Create a nearest-neighbour search, using brute-force search, useful for comparison only
-		/*!	This is an helper function, you can also use create() with BRUTE_FORCE as preferedType
-		 *	\param cloud data-point cloud in which to search
-		 *	\param dim number of dimensions to consider, must be lower or equal to cloud.rows()
-		 *	\param creationOptionFlags creation options, a bitwise OR of elements of CreationOptionFlags
-		 *	\return an object on which to run nearest neighbour queries */
-		static NearestNeighbourSearch* createBruteForce(const CloudType& cloud, const Index dim = std::numeric_limits<Index>::max(), const unsigned creationOptionFlags = 0);
-
 		//! Create a nearest-neighbour search, using a kd-tree with linear heap, good for small k (~up to 30)
 		/*!	This is an helper function, you can also use create() with KDTREE_LINEAR_HEAP as preferedType
 		 *	\param cloud data-point cloud in which to search
@@ -368,20 +359,11 @@ namespace Nabo
 		 * 	\return an object on which to run nearest neighbour queries */
 		static NearestNeighbourSearch* createKDTreeLinearHeap(const CloudType& cloud, const Index dim = std::numeric_limits<Index>::max(), const unsigned creationOptionFlags = 0, const Parameters& additionalParameters = Parameters());
 
-		//! Create a nearest-neighbour search, using a kd-tree with tree heap, good for large k (~from 30)
-		/*!	This is an helper function, you can also use create() with KDTREE_TREE_HEAP as preferedType
-		 *	\param cloud data-point cloud in which to search
-		 *	\param dim number of dimensions to consider, must be lower or equal to cloud.rows()
-		 *	\param creationOptionFlags creation options, a bitwise OR of elements of CreationOptionFlags
-		 *	\param additionalParameters additional parameters
-		 * 	\return an object on which to run nearest neighbour queries */
-		static NearestNeighbourSearch* createKDTreeTreeHeap(const CloudType& cloud, const Index dim = std::numeric_limits<Index>::max(), const unsigned creationOptionFlags = 0, const Parameters& additionalParameters = Parameters());
-
 
 
 		//! Prevent creation of trees with the wrong matrix type. Currently only dynamic size matrices are supported.
 		template <typename WrongMatrixType>
-		static NearestNeighbourSearch* create(const WrongMatrixType& cloud, const Index dim = std::numeric_limits<Index>::max(), const SearchType preferedType = KDTREE_LINEAR_HEAP, const unsigned creationOptionFlags = 0, const Parameters& additionalParameters = Parameters())
+		static NearestNeighbourSearch* create(const WrongMatrixType& /*cloud*/, const Index /*dim*/, const SearchType /*preferedType*/, const unsigned /*creationOptionFlags*/, const Parameters& /*additionalParameters*/)
 		{
 		  typedef int Please_make_sure_that_the_decltype_of_the_first_parameter_is_equal_to_the_Matrix_typedef[sizeof(WrongMatrixType) > 0 ? -1 : 1];
 		  Please_make_sure_that_the_decltype_of_the_first_parameter_is_equal_to_the_Matrix_typedef dummy;
@@ -390,7 +372,7 @@ namespace Nabo
 
 		//! Prevent creation of trees with the wrong matrix type. Currently only dynamic size matrices are supported.
 		template <typename WrongMatrixType>
-		static NearestNeighbourSearch* createBruteForce(const WrongMatrixType& cloud, const Index dim = std::numeric_limits<Index>::max(), const unsigned creationOptionFlags = 0)
+		static NearestNeighbourSearch* createBruteForce(const WrongMatrixType& /*cloud*/, const Index /*dim*/, const unsigned /*creationOptionFlags*/)
 		{
 		  typedef int Please_make_sure_that_the_decltype_of_the_first_parameter_is_equal_to_the_Matrix_typedef[sizeof(WrongMatrixType) > 0 ? -1 : 1];
 		  Please_make_sure_that_the_decltype_of_the_first_parameter_is_equal_to_the_Matrix_typedef dummy;
@@ -399,16 +381,7 @@ namespace Nabo
 
 		//! Prevent creation of trees with the wrong matrix type. Currently only dynamic size matrices are supported.
 		template <typename WrongMatrixType>
-		static NearestNeighbourSearch* createKDTreeLinearHeap(const WrongMatrixType& cloud, const Index dim = std::numeric_limits<Index>::max(), const unsigned creationOptionFlags = 0, const Parameters& additionalParameters = Parameters())
-		{
-		  typedef int Please_make_sure_that_the_decltype_of_the_first_parameter_is_equal_to_the_Matrix_typedef[sizeof(WrongMatrixType) > 0 ? -1 : 1];
-		  Please_make_sure_that_the_decltype_of_the_first_parameter_is_equal_to_the_Matrix_typedef dummy;
-		  return NULL;
-		}
-
-		//! Prevent creation of trees with the wrong matrix type. Currently only dynamic size matrices are supported.
-		template <typename WrongMatrixType>
-		static NearestNeighbourSearch* createKDTreeTreeHeap(const WrongMatrixType&, const Index dim = std::numeric_limits<Index>::max(), const unsigned creationOptionFlags = 0, const Parameters& additionalParameters = Parameters())
+		static NearestNeighbourSearch* createKDTreeLinearHeap(const WrongMatrixType& /*cloud*/, const Index /*dim*/, const unsigned /*creationOptionFlags*/, const Parameters& /*additionalParameters*/)
 		{
 		  typedef int Please_make_sure_that_the_decltype_of_the_first_parameter_is_equal_to_the_Matrix_typedef[sizeof(WrongMatrixType) > 0 ? -1 : 1];
 		  Please_make_sure_that_the_decltype_of_the_first_parameter_is_equal_to_the_Matrix_typedef dummy;

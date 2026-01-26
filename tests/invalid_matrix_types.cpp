@@ -45,17 +45,10 @@ int testFunction()
 	Nabo::NNSearchF* nns = Nabo::NNSearchF::create(M);
 #endif  // NABO_TYPE_CREATE
 
-#ifdef NABO_TYPE_BRUTE_FORCE
-	Nabo::NNSearchF* nns = Nabo::NNSearchF::createBruteForce(M);
-#endif  // NABO_TYPE_BRUTE_FORCE
-
 #ifdef NABO_TYPE_LINEAR_HEAP
 	Nabo::NNSearchF* nns = Nabo::NNSearchF::createKDTreeLinearHeap(M);
-#endif  // NABO_TYPE_TREE_HEAP
+#endif  // NABO_TYPE_LINEAR_HEAP
 
-#ifdef NABO_TYPE_TREE_HEAP
-	Nabo::NNSearchF* nns = Nabo::NNSearchF::createKDTreeTreeHeap(M);
-#endif  // NABO_TYPE_TREE_HEAP
 	delete nns;
 	return 0;
 }

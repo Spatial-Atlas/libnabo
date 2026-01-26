@@ -1,6 +1,6 @@
 # Set compiler flags
 set(CMAKE_CXX_STANDARD 17)
-add_compile_options(-Wall -Wextra -Wpedantic -Werror=return-type)
+add_compile_options(-Wall -Wextra -Wpedantic -Werror=return-type -Wunused -Wunused-function -Wunused-variable -Wunreachable-code)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -10,7 +10,6 @@ endif(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 # Find catkin macros and libraries
 find_package(catkin REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(Boost REQUIRED COMPONENTS python)
 
 # Catkin package macro
 catkin_package(

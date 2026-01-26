@@ -56,8 +56,6 @@ typedef Nabo::NearestNeighbourSearch<float>::Matrix MatrixF;
 typedef Nabo::NearestNeighbourSearch<float>::Vector VectorF;
 typedef Nabo::NearestNeighbourSearch<float>::Index IndexF;
 typedef Nabo::NearestNeighbourSearch<float>::IndexVector IndexVectorF;
-typedef Nabo::BruteForceSearch<double> BFSD;
-typedef Nabo::BruteForceSearch<float> BFSF;
 // typedef Nabo::KDTreeBalancedPtInNodesPQ<double> KDTD1;
 // typedef Nabo::KDTreeBalancedPtInNodesStack<double> KDTD2;
 // struct KDTD3: public Nabo::KDTreeBalancedPtInLeavesStack<double>
@@ -72,10 +70,8 @@ typedef Nabo::BruteForceSearch<float> BFSF;
 // 		Nabo::KDTreeBalancedPtInLeavesStack<double>(cloud, false)
 // 	{}
 // };
-// typedef Nabo::KDTreeUnbalancedPtInLeavesImplicitBoundsStack<double,IndexHeapSTL<int,double>> KDTD5A;
 // typedef Nabo::KDTreeUnbalancedPtInLeavesImplicitBoundsStack<double,IndexHeapBruteForceVector<int,double>> KDTD5B;
 // typedef Nabo::KDTreeUnbalancedPtInLeavesImplicitBoundsStackOpt<double,IndexHeapBruteForceVector<int,double>> KDTD5OB;
-// typedef Nabo::KDTreeUnbalancedPtInLeavesImplicitBoundsStackOpt<double,IndexHeapSTL<int,double>> KDTD5OA;
 // typedef Nabo::KDTreeUnbalancedPtInLeavesExplicitBoundsStack<double> KDTD6;
 
 
@@ -324,11 +320,6 @@ int main(int argc, char* argv[])
 		"Nabo, float, unbalanced, stack, pt in leaves only, implicit bounds, ANN_KD_SL_MIDPT, brute-force vector heap, opt",
 		"Nabo, float, unbalanced, stack, pt in leaves only, implicit bounds, ANN_KD_SL_MIDPT, STL heap, opt",
 		"Nabo, float, unbalanced, stack, pt in leaves only, implicit bounds, ANN_KD_SL_MIDPT, STL heap, opt, stats",
-		#ifdef HAVE_OPENCL
-		"Nabo, float, OpenCL, GPU, balanced, points in nodes, stack, implicit bounds, balance aspect ratio, stats",
-		"Nabo, float, OpenCL, GPU, balanced, points in leaves, stack, implicit bounds, balance aspect ratio, stats",
-		//"Nabo, float, OpenCL, GPU, brute force",
-		#endif // HAVE_OPENCL
 		//"Nabo, unbalanced, points in leaves, stack, explicit bounds, ANN_KD_SL_MIDPT",
 		#ifdef HAVE_ANN
 		"ANN stack, double",
@@ -354,15 +345,7 @@ int main(int argc, char* argv[])
 		//results.at(i++) += doBench<KDTD5A>(d, q, K, itCount, searchCount);
 		//results.at(i++) += doBench<KDTD5B>(d, q, K, itCount, searchCount);
 		results.at(i++) += doBenchType<double>(NNSearchD::KDTREE_LINEAR_HEAP, 0, dD, qD, K, itCount, searchCount);
-		results.at(i++) += doBenchType<double>(NNSearchD::KDTREE_TREE_HEAP, 0, dD, qD, K, itCount, searchCount);
 		results.at(i++) += doBenchType<float>(NNSearchF::KDTREE_LINEAR_HEAP, 0, dF, qF, K, itCount, searchCount);
-		results.at(i++) += doBenchType<float>(NNSearchF::KDTREE_TREE_HEAP, 0, dF, qF, K, itCount, searchCount);
-		results.at(i++) += doBenchType<float>(NNSearchF::KDTREE_TREE_HEAP, NNSearchF::TOUCH_STATISTICS, dF, qF, K, itCount, searchCount);
-		#ifdef HAVE_OPENCL
-		results.at(i++) += doBenchType<float>(NNSearchF::KDTREE_CL_PT_IN_NODES, NNSearchF::TOUCH_STATISTICS, dF, qF, K, itCount, searchCount);
-		results.at(i++) += doBenchType<float>(NNSearchF::KDTREE_CL_PT_IN_LEAVES, NNSearchF::TOUCH_STATISTICS, dF, qF, K, itCount, searchCount);
-		//results.at(i++) += doBenchType<float>(NNSearchF::BRUTE_FORCE_CL, dF, qF, K, itCount, searchCount);
-		#endif // HAVE_OPENCL
 		#ifdef HAVE_ANN
 		results.at(i++) += doBenchANNStack(dD, qD, K, itCount, searchCount);
 		//results.at(i++) += doBenchANNPriority(d, q, K, itCount);

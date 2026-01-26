@@ -287,9 +287,6 @@ namespace Nabo
 			BRUTE_FORCE = 0, //!< brute force, check distance to every point in the data
 			KDTREE_LINEAR_HEAP, //!< kd-tree with linear heap, good for small k (~up to 30)
 			KDTREE_TREE_HEAP, //!< kd-tree with tree heap, good for large k (~from 30)
-			KDTREE_CL_PT_IN_NODES, //!< kd-tree using openCL, pt in nodes, only available if OpenCL enabled, UNSTABLE API
-			KDTREE_CL_PT_IN_LEAVES, //!< kd-tree using openCL, pt in leaves, only available if OpenCL enabled, UNSTABLE API
-			BRUTE_FORCE_CL, //!< brute-force using openCL, only available if OpenCL enabled, UNSTABLE API
 			SEARCH_TYPE_COUNT //!< number of search types
 		};
 

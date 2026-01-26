@@ -9,7 +9,6 @@ set(NABO_SRC
   nabo/nabo.cpp
   nabo/brute_force_cpu.cpp
   nabo/kdtree_cpu.cpp
-  nabo/kdtree_opencl.cpp
 )
 
 file(GLOB_RECURSE NABO_HEADERS "nabo/*.h")
@@ -63,15 +62,6 @@ target_link_libraries(nabo
   Eigen3::Eigen
   )
 
-# NOTE(apoghosov): it seems that at the time of porting to ROS2 we have the following setup in our build pipeline:
-# Release - -O3 by default
-# RelWithDebInfo - -O2 by default
-# but I want to follow what is written in the catkin build variant ... -O3 everywhere except debug. Note that
-# specifiying it here will overide the previous option ... last specified is applied
-target_compile_options(nabo PRIVATE
-  "$<$<NOT:$<CONFIG:Debug>>:-O3>"
-  )
-
 set_target_properties(nabo
   PROPERTIES
     POSITION_INDEPENDENT_CODE ON
@@ -88,7 +78,6 @@ install(DIRECTORY nabo/
   FILES_MATCHING
     PATTERN "*.h"
     PATTERN "*.hpp"
-    PATTERN "opencl" EXCLUDE
   )
 
 install(TARGETS nabo

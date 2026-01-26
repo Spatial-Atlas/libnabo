@@ -138,15 +138,6 @@ namespace Nabo
 			case BRUTE_FORCE: return new BruteForceSearch<T, CloudType>(cloud, dim, creationOptionFlags);
 			case KDTREE_LINEAR_HEAP: return new KDTreeUnbalancedPtInLeavesImplicitBoundsStackOpt<T, IndexHeapBruteForceVector<Index,T>, CloudType>(cloud, dim, creationOptionFlags, additionalParameters);
 			case KDTREE_TREE_HEAP: return new KDTreeUnbalancedPtInLeavesImplicitBoundsStackOpt<T, IndexHeapSTL<Index,T>, CloudType>(cloud, dim, creationOptionFlags, additionalParameters);
-			#ifdef HAVE_OPENCL
-			case KDTREE_CL_PT_IN_NODES: return new KDTreeBalancedPtInNodesStackOpenCL<T, CloudType>(cloud, dim, creationOptionFlags, CL_DEVICE_TYPE_GPU);
-			case KDTREE_CL_PT_IN_LEAVES: return new KDTreeBalancedPtInLeavesStackOpenCL<T, CloudType>(cloud, dim, creationOptionFlags, CL_DEVICE_TYPE_GPU);
-			case BRUTE_FORCE_CL: return new BruteForceSearchOpenCL<T, CloudType>(cloud, dim, creationOptionFlags, CL_DEVICE_TYPE_GPU);
-			#else // HAVE_OPENCL
-			case KDTREE_CL_PT_IN_NODES: throw runtime_error() << "OpenCL not found during compilation";
-			case KDTREE_CL_PT_IN_LEAVES: throw runtime_error() << "OpenCL not found during compilation";
-			case BRUTE_FORCE_CL: throw runtime_error() << "OpenCL not found during compilation";
-			#endif // HAVE_OPENCL
 			default: throw runtime_error() << "Unknown search type";
 		}
 	}

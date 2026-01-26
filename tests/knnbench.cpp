@@ -324,11 +324,6 @@ int main(int argc, char* argv[])
 		"Nabo, float, unbalanced, stack, pt in leaves only, implicit bounds, ANN_KD_SL_MIDPT, brute-force vector heap, opt",
 		"Nabo, float, unbalanced, stack, pt in leaves only, implicit bounds, ANN_KD_SL_MIDPT, STL heap, opt",
 		"Nabo, float, unbalanced, stack, pt in leaves only, implicit bounds, ANN_KD_SL_MIDPT, STL heap, opt, stats",
-		#ifdef HAVE_OPENCL
-		"Nabo, float, OpenCL, GPU, balanced, points in nodes, stack, implicit bounds, balance aspect ratio, stats",
-		"Nabo, float, OpenCL, GPU, balanced, points in leaves, stack, implicit bounds, balance aspect ratio, stats",
-		//"Nabo, float, OpenCL, GPU, brute force",
-		#endif // HAVE_OPENCL
 		//"Nabo, unbalanced, points in leaves, stack, explicit bounds, ANN_KD_SL_MIDPT",
 		#ifdef HAVE_ANN
 		"ANN stack, double",
@@ -358,11 +353,6 @@ int main(int argc, char* argv[])
 		results.at(i++) += doBenchType<float>(NNSearchF::KDTREE_LINEAR_HEAP, 0, dF, qF, K, itCount, searchCount);
 		results.at(i++) += doBenchType<float>(NNSearchF::KDTREE_TREE_HEAP, 0, dF, qF, K, itCount, searchCount);
 		results.at(i++) += doBenchType<float>(NNSearchF::KDTREE_TREE_HEAP, NNSearchF::TOUCH_STATISTICS, dF, qF, K, itCount, searchCount);
-		#ifdef HAVE_OPENCL
-		results.at(i++) += doBenchType<float>(NNSearchF::KDTREE_CL_PT_IN_NODES, NNSearchF::TOUCH_STATISTICS, dF, qF, K, itCount, searchCount);
-		results.at(i++) += doBenchType<float>(NNSearchF::KDTREE_CL_PT_IN_LEAVES, NNSearchF::TOUCH_STATISTICS, dF, qF, K, itCount, searchCount);
-		//results.at(i++) += doBenchType<float>(NNSearchF::BRUTE_FORCE_CL, dF, qF, K, itCount, searchCount);
-		#endif // HAVE_OPENCL
 		#ifdef HAVE_ANN
 		results.at(i++) += doBenchANNStack(dD, qD, K, itCount, searchCount);
 		//results.at(i++) += doBenchANNPriority(d, q, K, itCount);

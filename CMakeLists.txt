@@ -22,7 +22,7 @@ if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
   add_definitions(-O3)
 endif(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-# Find catkin macros and libraries
+# Find dependencies
 find_package(Eigen3 REQUIRED)
 
 ########################
@@ -31,14 +31,12 @@ find_package(Eigen3 REQUIRED)
 add_library(knn
   ${NABO_SRC}
 )
-target_include_directories(knn
-  PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+target_include_directories(knn PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
 )
-target_link_libraries(knn
-  PUBLIC
-    Eigen3::Eigen
+target_link_libraries(knn PRIVATE
+  Eigen3::Eigen
 )
 add_library(${PROJECT_NAME}::knn ALIAS knn)
 

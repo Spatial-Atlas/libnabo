@@ -1,120 +1,36 @@
-cmake_minimum_required(VERSION 3.16.3)
-
-project(libnabo)
-
-if("$ENV{ROS_VERSION}" STREQUAL "1")
+cmake_minimum_required(VERSION 3.15)
+project(nabo VERSION 1.0.0 LANGUAGES CXX)
 
 # Source and header files.
 set(NABO_SRC
-  nabo/nabo.cpp
-  nabo/kdtree_cpu.cpp
+  src/${PROJECT_NAME}/nabo.cpp
+  src/${PROJECT_NAME}/kdtree_cpu.cpp
 )
 
-file(GLOB_RECURSE NABO_HEADERS "nabo/*.h")
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 20) # Use C++20 standard
+set(CMAKE_CXX_STANDARD_REQUIRED ON) # Ensures that the specified C++ standard (set elsewhere) is strictly required for the project.
+set(CMAKE_CXX_EXTENSIONS OFF) # Disables compiler-specific language extensions, enforcing strict compliance with the chosen C++ standard.
+
+# Export compile commands for CI/CD tools
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Define compiler options
+add_compile_options(-Wall -Wextra -Wpedantic -Werror=return-type -Wunused -Wunused-function -Wunused-variable -Wunreachable-code)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+  add_definitions(-O3)
+endif(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 # Build type options:
 #	* catkin.
 #	* cmake.
 #	* ament (future).
-set(BUILD_TYPE "catkin")
+set(BUILD_TYPE "cmake")
 if (BUILD_TYPE STREQUAL "catkin")
   include(CatkinBuild.cmake)
 else()
   # For a pure-cmake build, follow the instructions on the package.xml file, which
   # specify how to set the buildtool to cmake and export the package accordingly.
   include(PureCMakeBuild.cmake)
-endif()
-
-else() # ROS version 2
-
-set(CMAKE_CXX_STANDARD 17)
-add_compile_options(-Wall -Wextra -Wpedantic -Werror=return-type)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-set(PACKAGE_DEPENDENCIES
-  Eigen3
-  )
-
-find_package(ament_cmake REQUIRED)
-
-foreach(PKG ${PACKAGE_DEPENDENCIES})
-  find_package(${PKG} REQUIRED)
-endforeach()
-
-########################
-## Library definition ##
-########################
-
-add_library(nabo
-  nabo/nabo.cpp
-  nabo/brute_force_cpu.cpp
-  nabo/kdtree_cpu.cpp
-  )
-
-target_include_directories(nabo
-  PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
-    $<INSTALL_INTERFACE:include/>
-  )
-
-target_link_libraries(nabo
-  Eigen3::Eigen
-  )
-
-set_target_properties(nabo
-  PROPERTIES
-    POSITION_INDEPENDENT_CODE ON
-  )
-
-ament_target_dependencies(nabo ${PACKAGE_DEPENDENCIES})
-
-#############
-## Install ##
-#############
-
-install(DIRECTORY nabo/
-  DESTINATION include/nabo
-  FILES_MATCHING
-    PATTERN "*.h"
-    PATTERN "*.hpp"
-  )
-
-install(TARGETS nabo
-  EXPORT export_${PROJECT_NAME}
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  RUNTIME DESTINATION bin
-  )
-
-ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
-ament_export_dependencies(${PACKAGE_DEPENDENCIES})
-
-#############
-## Testing ##
-#############
-  
-if(BUILD_TESTING)
-  
-  find_package(ament_cmake_gtest REQUIRED)
-  
-  ament_add_gtest(test_${PROJECT_NAME}
-    tests/empty_test.cpp
-    )
-
-  target_link_libraries(test_${PROJECT_NAME} nabo)
-
-  ###################
-  ## Code_coverage ##
-  ###################
-
-  find_package(cmake_code_coverage QUIET)
-
-  if(cmake_code_coverage_FOUND)
-    add_gtest_coverage(TEST_BUILD_TARGETS test_${PROJECT_NAME})
-  endif()
-
-endif()
-
-ament_package()
-
 endif()

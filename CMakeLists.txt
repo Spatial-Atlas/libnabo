@@ -38,6 +38,7 @@ target_include_directories(knn PUBLIC
 target_link_libraries(knn PRIVATE
   Eigen3::Eigen
 )
+set_target_properties(knn PROPERTIES POSITION_INDEPENDENT_CODE ON)
 add_library(${PROJECT_NAME}::knn ALIAS knn)
 
 #############

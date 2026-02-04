@@ -56,7 +56,7 @@ install(DIRECTORY include/
   DESTINATION include
 )
 install(FILES ${CMAKE_BINARY_DIR}/compile_commands.json
-  DESTINATION .
+  DESTINATION share/${PROJECT_NAME}
   OPTIONAL
 )
 install(

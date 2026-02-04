@@ -1,12 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 project(nabo VERSION 1.0.0 LANGUAGES CXX)
 
-# Source and header files.
-set(NABO_SRC
-  src/${PROJECT_NAME}/nabo.cpp
-  src/${PROJECT_NAME}/kdtree_cpu.cpp
-)
-
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 20) # Use C++20 standard
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # Ensures that the specified C++ standard (set elsewhere) is strictly required for the project.
@@ -28,8 +22,9 @@ find_package(Eigen3 REQUIRED)
 ########################
 ## Library definition ##
 ########################
-add_library(knn
-  ${NABO_SRC}
+add_library(knn STATIC
+  src/${PROJECT_NAME}/nabo.cpp
+  src/${PROJECT_NAME}/kdtree_cpu.cpp
 )
 target_include_directories(knn PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -39,6 +34,7 @@ target_link_libraries(knn PRIVATE
   Eigen3::Eigen
 )
 set_target_properties(knn PROPERTIES POSITION_INDEPENDENT_CODE ON)
+set_target_properties(knn PROPERTIES OUTPUT_NAME "${PROJECT_NAME}_knn")
 add_library(${PROJECT_NAME}::knn ALIAS knn)
 
 #############
@@ -63,11 +59,6 @@ install(
   EXPORT ${PROJECT_NAME}_Targets
   FILE ${PROJECT_NAME}Config.cmake
   NAMESPACE ${PROJECT_NAME}::
-  DESTINATION share/${PROJECT_NAME}
-)
-install(
-  EXPORT ${PROJECT_NAME}_Targets
-  FILE Find${PROJECT_NAME}.cmake
   DESTINATION share/${PROJECT_NAME}
 )
 include(CMakePackageConfigHelpers)
